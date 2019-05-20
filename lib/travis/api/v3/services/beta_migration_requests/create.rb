@@ -4,7 +4,7 @@ module Travis::API::V3
     result_type :beta_migration_request
 
     def run!
-      raise InsufficientAccess unless access_control.full_access?
+      raise InsufficientAccess unless access_control.config[:full_access]
 
       current_user = User.find_by!(login: params['user_login'])
       organizations = validate_organizations(current_user, params['organizations'])

@@ -44,6 +44,8 @@ describe Travis::API::V3::Services::BetaMigrationRequests::Create, set_app: true
     example { expect(JSON.load(body)).to include(
       "@type"           => "beta_migration_request",
       "@representation" => "standard",
+      "accepted_at"     => nil,
+      "organizations"   => [org1.id, org2.id, org3.id],
       "owner_id"        => user.id,
       "owner_name"      => user.login,
       "owner_type"      => "User")

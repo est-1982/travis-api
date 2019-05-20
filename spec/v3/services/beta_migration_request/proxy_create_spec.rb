@@ -57,9 +57,12 @@ describe Travis::API::V3::Services::BetaMigrationRequest::ProxyCreate, set_app: 
 
     before do
       Travis::API::V3::Models::Permission.create(user: user)
+      Travis.config.applications[:api_org] = { token: 'sometoken', full_access: true }
       stub_request(:post, "#{Travis.config.api_com_url}/v3/beta_migration_requests").to_return(status: 200, body: response_hash.to_json)
       post("/v3/user/#{user.id}/beta_migration_request", params, auth_headers)
     end
+
+    after { Travis.config.applications.delete(:api_org) }
 
     example { expect(last_response.status).to be == 200 }
     example { expect(JSON.load(body).to_s).to include(
